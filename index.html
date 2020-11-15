@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Simple bot</title>
+        <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css" />
+    </head>
+    <body>
+        <div id="subscribe-bot">
+            <bot-ui></bot-ui>    
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
+        <script src="https://unpkg.com/botui/build/botui.min.js"></script>
+        <script>
+            var botui = new BotUI('subscribe-bot');
+
+            botui.message.add({
+                loading: true,
+                delay: 3000,
+                content: 'Hi, you like my site subscribe?'
+            }).then(function () {
+                botui.action.button({
+                    loading: true,
+                    action: [
+                        {
+                            text: 'Why not, yes',
+                            value: true
+                        },
+                        {
+                            text: 'Not really',
+                            value: false
+                        }
+                    ]
+                }).then(function(response){
+                    if(response.value){
+                        botui.action.text({
+                            loading: true,
+                            delay: 2000,
+                            action: {
+                                placeholder: 'Enter your name'
+                            }
+                        }).then(function(resposne){
+                            botui.message.add({
+                                loading: true,
+                                delay: 2000,
+                                content: 'Thanks, have a nice day!!'
+                            });
+                        });
+                    } else {
+                        botui.message.add({
+                            loading: true,
+                            delay: 2000,
+                            content: "That's fine, i'll try again."
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
